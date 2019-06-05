@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 export default class Lap extends Component {
   render() {
-    const { lap, time } = this.props;
+    const { lap, lapNum } = this.props;
     
     return(
       <li>
-        <span>{`Lap ${lap}`}</span>
-        <span>{ time }</span>
+        <span>{`Lap ${lapNum}`} </span>
+        <span>{ lap }</span>
       </li>
     );
   }

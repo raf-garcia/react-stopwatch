@@ -4,13 +4,19 @@ import React, { Component } from 'react';
 import Buttons from './buttons';
 import LapList from './lapList';
 
+// utils
+import { displayTimeFormat } from '../util/format';
+
 const setDefaultState = () => ({
   initialStart: true,
   isRunning: false,
   startTime: 0,
   stopTime: 0,
   timeElapsed: 0,
-  laps: []
+  laps: [],
+
+  lapStartTime: 0,
+  lapTimeElapsed: 0
 });
 
 export default class Stopwatch extends Component {
@@ -24,35 +30,34 @@ export default class Stopwatch extends Component {
     this.reset = this.reset.bind(this);
     this.addLapToList = this.addLapToList.bind(this);
   }
-  
-  padZero(number) {
-    return number < 10 ? "0" + number : number.toString();
-  }
-
-  displayTimeFormat(milliseconds) {
-    let displayMilliseconds = Math.floor((milliseconds / 10) % 100);
-    let displaySeconds = Math.floor((milliseconds / 1000) % 60);
-    let displayMinutes = Math.floor((milliseconds / 1000) / 60);
-    
-    return `${ this.padZero( displayMinutes ) }:${ this.padZero( displaySeconds ) }.${ this.padZero( displayMilliseconds ) }`;
-  }
     
   firstStart() {
-    this.addLapToList();
-    this.setState({ startTime: Date.now(), initialStart: false });
+    this.setState({ 
+      startTime: Date.now(),
+      lapStartTime: Date.now(),
+      initialStart: false
+    });
   }
 
   // start timer
   start() {
     let offset = Date.now() - this.state.stopTime;
+
     if (this.state.initialStart) {
       this.firstStart();
     } else {
-      this.setState({ startTime: this.state.startTime + offset })
+      this.setState({
+        startTime: this.state.startTime + offset,
+        lapStartTime: this.state.lapStartTime + offset
+      });
     }
     
     this.intervalId = setInterval( () => {
-      this.setState({ isRunning: true, timeElapsed: Date.now() - this.state.startTime });
+      this.setState({ 
+        isRunning: true,
+        timeElapsed: Date.now() - this.state.startTime,
+        lapTimeElapsed: Date.now() - this.state.lapStartTime
+      });
     }, 1);
   }
 
@@ -69,8 +74,8 @@ export default class Stopwatch extends Component {
 
   // lap
   addLapToList() {
-    this.state.laps.unshift(this.displayTimeFormat(this.state.timeElapsed));
-    this.setState({ laps: this.state.laps });
+    this.state.laps.unshift(displayTimeFormat(this.state.lapTimeElapsed));
+    this.setState({ lapStartTime: Date.now(), laps: this.state.laps });
   }
   
   render() {
@@ -78,7 +83,7 @@ export default class Stopwatch extends Component {
     
     return (
       <div className="main-stopwatch">
-        { this.displayTimeFormat( this.state.timeElapsed ) }
+        { displayTimeFormat( this.state.timeElapsed ) }
 
         <Buttons
           initialStart={ initialStart }
@@ -89,7 +94,7 @@ export default class Stopwatch extends Component {
           addLap={ this.addLapToList }
           />
 
-        <LapList laps={ this.state.laps }/>
+        <LapList laps={ this.state.laps } firstLapTimeElapsed={ this.state.lapTimeElapsed }/>
       </div>
     )
   }
