@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // Components
 import Buttons from './buttons';
+import LapList from './lapList';
 
 const setDefaultState = () => ({
   initialStart: true,
@@ -21,6 +22,7 @@ export default class Stopwatch extends Component {
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.reset = this.reset.bind(this);
+    this.addLapToList = this.addLapToList.bind(this);
   }
   
   padZero(number) {
@@ -36,13 +38,13 @@ export default class Stopwatch extends Component {
   }
     
   firstStart() {
+    this.addLapToList();
     this.setState({ startTime: Date.now(), initialStart: false });
   }
 
   // start timer
   start() {
     let offset = Date.now() - this.state.stopTime;
-    debugger
     if (this.state.initialStart) {
       this.firstStart();
     } else {
@@ -66,6 +68,10 @@ export default class Stopwatch extends Component {
   }
 
   // lap
+  addLapToList() {
+    this.state.laps.unshift(this.displayTimeFormat(this.state.timeElapsed));
+    this.setState({ laps: this.state.laps });
+  }
   
   render() {
     const { initialStart, isRunning } = this.state;
@@ -80,8 +86,10 @@ export default class Stopwatch extends Component {
           start={ this.start }
           stop={ this.stop }
           reset={ this.reset }
-          addLap={ () => console.log('Invoke Add Lap function') }
+          addLap={ this.addLapToList }
           />
+
+        <LapList laps={ this.state.laps }/>
       </div>
     )
   }
