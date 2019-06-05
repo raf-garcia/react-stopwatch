@@ -5,7 +5,7 @@ export default class Lap extends Component {
     const { lap, lapNum } = this.props;
     
     return(
-      <li>
+      <li className="lap-item">
         <span>{`Lap ${lapNum}`} </span>
         <span>{ lap }</span>
       </li>

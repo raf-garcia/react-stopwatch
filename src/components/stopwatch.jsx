@@ -7,6 +7,9 @@ import LapList from './lapList';
 // utils
 import { displayTimeFormat } from '../util/format';
 
+// css
+import '../css/stopwatch.css'
+
 const setDefaultState = () => ({
   initialStart: true,
   isRunning: false,
@@ -83,7 +86,8 @@ export default class Stopwatch extends Component {
     
     return (
       <div className="main-stopwatch">
-        { displayTimeFormat( this.state.timeElapsed ) }
+        <h1 className="main-header">Stopwatch</h1>
+        <h1 className="main-time">{displayTimeFormat(this.state.timeElapsed)}</h1>
 
         <Buttons
           initialStart={ initialStart }

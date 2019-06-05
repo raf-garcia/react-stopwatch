@@ -6,14 +6,13 @@ import Lap from './lap';
 // util
 import { displayTimeFormat } from '../util/format';
 
+// css
+// import '../'
+
 export default class LapList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      lapStartTime: 0,
-      lapTimeElapsed: 0,
-
-    }
+    this.state = {};
   }
   
   render() {
@@ -22,15 +21,15 @@ export default class LapList extends Component {
     if (parseInt(firstLapTimeElapsed) === 0) {
       firstLap = null;
     } else {
-      firstLap = <li>
+      firstLap = <li className="lap-item">
         <span>{`Lap ${laps.length + 1}`} </span>
         <span>{displayTimeFormat(firstLapTimeElapsed)}</span>
       </li>;
     }
     
     return(
-      <div>
-        <ul>
+      <div style={{height: '25vh'}}>
+        <ul className="lap-list">
           { firstLap }
           {
             laps.map( (lap, idx, lapList) => (

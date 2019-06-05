@@ -1,5 +1,8 @@
 import React from 'react';
 
+// css
+import '../css/buttons.css';
+
 const Buttons = (props) => {
   const { initialStart, isRunning, start, stop, reset, addLap } = props;
   let lapResetButtonText, startStopButtonText;
@@ -27,10 +30,19 @@ const Buttons = (props) => {
   return (
     <div className='buttons'>
       {/* lap and reset btn */}
-      <button onClick={lapResetFunction} disabled={lapResetButtonDisabled}> {lapResetButtonText} </button>
+      <button
+        className="lap"
+        onClick={lapResetFunction}
+        disabled={lapResetButtonDisabled}>
+        {lapResetButtonText}
+      </button>
 
       {/* start and stop btn */}
-      <button onClick={startStopFunction}> {startStopButtonText} </button>
+      <button
+        className={startStopButtonText.toLowerCase()}
+        onClick={startStopFunction}>
+        {startStopButtonText}
+      </button>
     </div>
   );
 }

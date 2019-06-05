@@ -8,8 +8,6 @@ import Stopwatch from './components/stopwatch';
 function App() {
   return (
     <div className="App">
-      <h1>Stopwatch</h1>
-
       <Stopwatch />
     </div>
   );

@@ -1,0 +1,31 @@
+.main-header {
+  color: white;
+  padding-top: 2rem;
+}
+
+.main-time {
+  font-size: 6rem;
+  padding: 4rem 0;
+  font-weight: 100;
+}
+
+.main-stopwatch {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  max-width: 768px;
+}
+
+.lap-list {
+  list-style: none;
+  margin-top: 15px;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.lap-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.65rem 0.5rem;
+  border-bottom: solid 1px rgba(100,100,100, 0.9);
+}
