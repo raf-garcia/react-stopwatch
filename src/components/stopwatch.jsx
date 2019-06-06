@@ -106,8 +106,7 @@ export default class Stopwatch extends Component {
       maxLapIndex,
       minLapIndex
     } = this.state;
-    
-    debugger
+
     return (
       <div className="main-stopwatch">
         <h1 className="main-header">Stopwatch</h1>
