@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 
 // Components
 import Buttons from './buttons';
-import LapList from './lapList';
+import { LapList } from './lapList';
 
 // utils
-import { displayTimeFormat } from '../util/format';
+import {
+  displayTimeFormat,
+  getMaxLapTimeIndex,
+  getMinLapTimeIndex
+} from '../util/format';
 
 // css
 import '../css/stopwatch.css'
@@ -19,7 +23,10 @@ const setDefaultState = () => ({
   laps: [],
 
   lapStartTime: 0,
-  lapTimeElapsed: 0
+  lapTimeElapsed: 0,
+
+  maxLapIndex: -1,
+  minLapIndex: -1
 });
 
 export default class Stopwatch extends Component {
@@ -33,7 +40,7 @@ export default class Stopwatch extends Component {
     this.reset = this.reset.bind(this);
     this.addLapToList = this.addLapToList.bind(this);
   }
-    
+  
   firstStart() {
     this.setState({ 
       startTime: Date.now(),
@@ -78,16 +85,33 @@ export default class Stopwatch extends Component {
   // lap
   addLapToList() {
     this.state.laps.unshift(displayTimeFormat(this.state.lapTimeElapsed));
-    this.setState({ lapStartTime: Date.now(), laps: this.state.laps });
+    let minLapIndex = getMinLapTimeIndex(this.state.laps);
+    let maxLapIndex = getMaxLapTimeIndex(this.state.laps);
+    
+    this.setState({
+      lapStartTime: Date.now(),
+      laps: this.state.laps,
+      minLapIndex,
+      maxLapIndex
+    });
   }
   
   render() {
-    const { initialStart, isRunning } = this.state;
+    const {
+      initialStart,
+      isRunning,
+      timeElapsed,
+      laps,
+      lapTimeElapsed,
+      maxLapIndex,
+      minLapIndex
+    } = this.state;
     
+    debugger
     return (
       <div className="main-stopwatch">
         <h1 className="main-header">Stopwatch</h1>
-        <h1 className="main-time">{displayTimeFormat(this.state.timeElapsed)}</h1>
+        <h1 className="main-time">{displayTimeFormat(timeElapsed)}</h1>
 
         <Buttons
           initialStart={ initialStart }
@@ -98,7 +122,12 @@ export default class Stopwatch extends Component {
           addLap={ this.addLapToList }
           />
 
-        <LapList laps={ this.state.laps } firstLapTimeElapsed={ this.state.lapTimeElapsed } addLapToList={this.addLapToList}/>
+        <LapList 
+          laps={ laps } 
+          firstLapTimeElapsed={ lapTimeElapsed }
+          maxLapIndex={ maxLapIndex }
+          minLapIndex={ minLapIndex }
+        />
       </div>
     )
   }
