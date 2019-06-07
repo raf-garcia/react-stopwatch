@@ -1,8 +1,6 @@
 import React from 'react';
 
-export const Lap = (props) => {
-  const { lap, lapNum, cssClassName } = props;
-  
+export const Lap = ({ lap, lapNum, cssClassName }) => {
   return (
     <li className={`lap-item ${cssClassName}`}>
         <span>{`Lap ${lapNum}`} </span>

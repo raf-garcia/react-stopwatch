@@ -7,14 +7,7 @@ import { Lap } from './lap';
 import { displayTimeFormat } from '../util/format';
 
 
-export const LapList = (props) => {
-  const {
-    laps,
-    firstLapTimeElapsed,
-    maxLapIndex,
-    minLapIndex
-  } = props;
-
+export const LapList = ({ laps, firstLapTimeElapsed, maxLapIndex, minLapIndex }) => {
   let firstLap;
   if (parseInt(firstLapTimeElapsed) === 0) {
     firstLap = null;
@@ -30,7 +23,6 @@ export const LapList = (props) => {
       <ul className="lap-list">
         {firstLap}
         {
-          
           laps.map((lap, idx, lapList) => {
             let cssClassName = 'white';
             if (idx === minLapIndex || idx === maxLapIndex) {

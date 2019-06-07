@@ -3,8 +3,7 @@ import React from 'react';
 // css
 import '../css/buttons.css';
 
-const Buttons = (props) => {
-  const { initialStart, isRunning, start, stop, reset, addLap } = props;
+const Buttons = ({ initialStart, isRunning, start, stop, reset, addLap }) => {
   let lapResetButtonText, startStopButtonText;
   let lapResetFunction, startStopFunction;
   let lapResetButtonDisabled;
