@@ -9,20 +9,20 @@ const Buttons = ({ initialStart, isRunning, start, stop, reset, addLap }) => {
   let lapResetButtonDisabled;
 
   if (initialStart) {
-    lapResetButtonText = "Lap";
+    lapResetButtonText = 'Lap';
     lapResetButtonDisabled = true;
-    startStopButtonText = "Start";
+    startStopButtonText = 'Start';
     startStopFunction = start;
   } else if (isRunning) {
-    lapResetButtonText = "Lap";
+    lapResetButtonText = 'Lap';
     lapResetFunction = addLap;
     lapResetButtonDisabled = false;
-    startStopButtonText = "Stop";
+    startStopButtonText = 'Stop';
     startStopFunction = stop;
   } else {
-    lapResetButtonText = "Reset";
+    lapResetButtonText = 'Reset';
     lapResetFunction = reset;
-    startStopButtonText = "Start";
+    startStopButtonText = 'Start';
     startStopFunction = start;
   }
 
@@ -30,20 +30,22 @@ const Buttons = ({ initialStart, isRunning, start, stop, reset, addLap }) => {
     <div className='buttons'>
       {/* lap and reset btn */}
       <button
-        className="lap"
+        className='lap'
         onClick={lapResetFunction}
-        disabled={lapResetButtonDisabled}>
+        disabled={lapResetButtonDisabled}
+      >
         {lapResetButtonText}
       </button>
 
       {/* start and stop btn */}
       <button
         className={startStopButtonText.toLowerCase()}
-        onClick={startStopFunction}>
+        onClick={startStopFunction}
+      >
         {startStopButtonText}
       </button>
     </div>
   );
-}
+};
 
 export default Buttons;

@@ -12,8 +12,10 @@ import {
 } from '../util/format';
 
 // css
-import '../css/stopwatch.css'
+import '../css/stopwatch.css';
 
+// (Christi): was there a reason to use a function here?
+// A simple object could have worked just fine
 const setDefaultState = () => ({
   initialStart: true,
   isRunning: false,
@@ -35,14 +37,18 @@ export default class Stopwatch extends Component {
     this.state = setDefaultState();
 
     this.intervalId = null;
+    /* (Christi): in order to not have to bind this to all your
+        class methods use arrow functions. () => {}
+        see here for the tradeoffs between the two approaches: https://blog.usejournal.com/arrow-functions-are-disrupting-react-components-63662d35f97b
+    */
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.reset = this.reset.bind(this);
     this.addLapToList = this.addLapToList.bind(this);
   }
-  
+
   firstStart() {
-    this.setState({ 
+    this.setState({
       startTime: Date.now(),
       lapStartTime: Date.now(),
       initialStart: false
@@ -51,6 +57,9 @@ export default class Stopwatch extends Component {
 
   // start timer
   start() {
+    // (Christi): when using a lot of this.state.<whatever>
+    // deconstruct state
+    // ex: const { initialStart, stopTime } = this.state
     let offset = Date.now() - this.state.stopTime;
 
     if (this.state.initialStart) {
@@ -61,9 +70,9 @@ export default class Stopwatch extends Component {
         lapStartTime: this.state.lapStartTime + offset
       });
     }
-    
-    this.intervalId = setInterval( () => {
-      this.setState({ 
+
+    this.intervalId = setInterval(() => {
+      this.setState({
         isRunning: true,
         timeElapsed: Date.now() - this.state.startTime,
         lapTimeElapsed: Date.now() - this.state.lapStartTime
@@ -79,7 +88,7 @@ export default class Stopwatch extends Component {
 
   // reset timer
   reset() {
-    this.setState( setDefaultState() );
+    this.setState(setDefaultState());
   }
 
   // lap
@@ -87,7 +96,7 @@ export default class Stopwatch extends Component {
     this.state.laps.unshift(displayTimeFormat(this.state.lapTimeElapsed));
     let minLapIndex = getMinLapTimeIndex(this.state.laps);
     let maxLapIndex = getMaxLapTimeIndex(this.state.laps);
-    
+
     this.setState({
       lapStartTime: Date.now(),
       laps: this.state.laps,
@@ -95,7 +104,7 @@ export default class Stopwatch extends Component {
       maxLapIndex
     });
   }
-  
+
   render() {
     const {
       initialStart,
@@ -108,26 +117,26 @@ export default class Stopwatch extends Component {
     } = this.state;
 
     return (
-      <div className="main-stopwatch">
-        <h1 className="main-header">Stopwatch</h1>
-        <h1 className="main-time">{displayTimeFormat(timeElapsed)}</h1>
+      <div className='main-stopwatch'>
+        <h1 className='main-header'>Stopwatch</h1>
+        <h1 className='main-time'>{displayTimeFormat(timeElapsed)}</h1>
 
         <Buttons
-          initialStart={ initialStart }
-          isRunning={ isRunning }
-          start={ this.start }
-          stop={ this.stop }
-          reset={ this.reset }
-          addLap={ this.addLapToList }
-          />
+          initialStart={initialStart}
+          isRunning={isRunning}
+          start={this.start}
+          stop={this.stop}
+          reset={this.reset}
+          addLap={this.addLapToList}
+        />
 
-        <LapList 
-          laps={ laps } 
-          firstLapTimeElapsed={ lapTimeElapsed }
-          maxLapIndex={ maxLapIndex }
-          minLapIndex={ minLapIndex }
+        <LapList
+          laps={laps}
+          firstLapTimeElapsed={lapTimeElapsed}
+          maxLapIndex={maxLapIndex}
+          minLapIndex={minLapIndex}
         />
       </div>
-    )
+    );
   }
 }
